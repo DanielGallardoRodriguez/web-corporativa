@@ -16,6 +16,28 @@
 <body>
 
   <!-- ===========================
+       BANNER DE COOKIES
+  =========================== -->
+  <div class="cookie-banner" id="cookie-banner" role="dialog" aria-labelledby="cookie-title" aria-describedby="cookie-desc" hidden>
+    <div class="cookie-banner-inner">
+      <div class="cookie-icon" aria-hidden="true">🍪</div>
+      <div class="cookie-text">
+        <p id="cookie-title" class="cookie-title">Utilitzem cookies</p>
+        <p id="cookie-desc" class="cookie-desc">
+          Fem servir cookies pròpies i de tercers per millorar la teva experiència de navegació i obtenir estadístiques de visita (StatCounter). 
+          Pots acceptar-les totes, rebutjar les no essencials o consultar la nostra 
+          <a href="politica-cookies.html" class="cookie-link">Política de Cookies</a>.
+        </p>
+      </div>
+      <div class="cookie-actions">
+        <button class="cookie-btn cookie-btn--reject" id="cookie-reject">Rebutjar opcionals</button>
+        <button class="cookie-btn cookie-btn--settings" id="cookie-settings" onclick="window.location='politica-cookies.html'">Configurar</button>
+        <button class="cookie-btn cookie-btn--accept" id="cookie-accept">Acceptar totes</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===========================
        NAVIGATION
   =========================== -->
   <header class="site-header" id="site-header">
@@ -591,11 +613,21 @@
               ></textarea>
             </div>
 
+            <!-- CHECKBOX 1: Consentiment de dades (obligatori) -->
             <div class="form-group form-check">
               <label class="form-checkbox-label">
-                <input type="checkbox" name="privacitat" required aria-required="true" />
+                <input type="checkbox" name="privacitat" id="privacitat" required aria-required="true" />
                 <span class="form-checkmark" aria-hidden="true"></span>
-                <span>He llegit i accepto la <a href="#" class="form-link">Política de Privacitat</a> i el tractament de les meves dades. <span aria-hidden="true">*</span></span>
+                <span>He llegit i accepto la <a href="politica-privacitat.html" class="form-link" target="_blank">Política de Privacitat</a> i autoritzo el tractament de les meves dades personals per gestionar la meva consulta. <span aria-hidden="true">*</span></span>
+              </label>
+            </div>
+
+            <!-- CHECKBOX 2: Comunicacions comercials (opcional) -->
+            <div class="form-group form-check">
+              <label class="form-checkbox-label">
+                <input type="checkbox" name="comunicacions" id="comunicacions" />
+                <span class="form-checkmark" aria-hidden="true"></span>
+                <span>Accepto rebre comunicacions comercials, novetats i ofertes de FoodLogistic S.A. per correu electrònic. Podeu consultar les condicions a l'<a href="avis-legal.html" class="form-link" target="_blank">Avís Legal</a>.</span>
               </label>
             </div>
 
@@ -695,12 +727,12 @@
 
     <div class="footer-bottom">
       <div class="container footer-bottom-inner">
-        <p class="footer-copy">© 2024 FoodLogistic S.A. — Tots els drets reservats.</p>
+        <p class="footer-copy">© 2024 FoodLogistic S.A. — Tots els drets reservats. NIF: B-08234567</p>
         <nav aria-label="Enllaços legals">
           <ul class="footer-legal" role="list">
-            <li><a href="#">Avís Legal</a></li>
-            <li><a href="#">Política de Privacitat</a></li>
-            <li><a href="#">Política de Cookies</a></li>
+            <li><a href="avis-legal.html">Avís Legal</a></li>
+            <li><a href="politica-privacitat.html">Política de Privacitat</a></li>
+            <li><a href="politica-cookies.html">Política de Cookies</a></li>
           </ul>
         </nav>
       </div>
@@ -737,7 +769,6 @@
       toggle.classList.toggle('open', !open);
     });
 
-    // Close on link click
     menu.querySelectorAll('.nav-link').forEach(link => {
       link.addEventListener('click', () => {
         toggle.setAttribute('aria-expanded', 'false');
@@ -807,10 +838,13 @@
 
     form.addEventListener('submit', (e) => {
       e.preventDefault();
+      const privacitat = document.getElementById('privacitat');
+      if (!privacitat.checked) {
+        privacitat.focus();
+        return;
+      }
       submitBtn.disabled = true;
       submitBtn.querySelector('.btn-text').textContent = 'Enviant...';
-
-      // Simulate async submission
       setTimeout(() => {
         form.querySelectorAll('.form-input, .form-select, .form-textarea').forEach(el => el.disabled = true);
         submitBtn.hidden = true;
@@ -831,7 +865,33 @@
         }
       });
     });
+
+    // ---- Cookie Banner ----
+    const cookieBanner = document.getElementById('cookie-banner');
+    const cookieKey = 'fl_cookie_consent';
+
+    function initCookieBanner() {
+      const consent = localStorage.getItem(cookieKey);
+      if (!consent) {
+        setTimeout(() => {
+          cookieBanner.hidden = false;
+          cookieBanner.classList.add('cookie-banner--visible');
+        }, 800);
+      }
+    }
+
+    function closeBanner(accepted) {
+      localStorage.setItem(cookieKey, accepted ? 'accepted' : 'rejected');
+      cookieBanner.classList.remove('cookie-banner--visible');
+      setTimeout(() => { cookieBanner.hidden = true; }, 400);
+    }
+
+    document.getElementById('cookie-accept').addEventListener('click', () => closeBanner(true));
+    document.getElementById('cookie-reject').addEventListener('click', () => closeBanner(false));
+
+    initCookieBanner();
   </script>
+
 <!-- Default Statcounter code for FoodLogistics
 https://danielgallardorodriguez.github.io/web-corporativa/ -->
 <script type="text/javascript">
