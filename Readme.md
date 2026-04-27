@@ -1,7 +1,7 @@
 
-# Web Corporativa de [Nom de l'Empresa]
+# Web Corporativa de FoodLogístic S.A.
 
-Aquesta és la web corporativa de [Nom de l'Empresa], una empresa fictícia dedicada a [descripció breu de l'empresa] dins el mòdul *Projecte Intermodular*.
+Aquesta és la web corporativa de FoodLogístic S.A., una empresa fictícia dedicada a Una les primeres inquietuds que us han fet arribar des de FoodLogistic és que la seva presència a Internet ha de millorar. Per una banda, la pàgina web actual s’ha quedat estètica i tècnicament desactualitzada i a més, no compleix la normativa actual (LOPDGDD i LSSI-CE) dins el mòdul *Projecte Intermodular*.
 
 ## Demostració
 
